@@ -44,27 +44,28 @@ const player5 = {
 		console.log(this.name + ' fight... ');
 	},
 };
+
+const $arenas = document.querySelector('.arenas');
+
 function createPlayer(player, person) {
-	const $arenas = document.querySelector('.arenas');
 	const $player = document.createElement('div');
 	$player.classList.add(`${player}`);
 	$arenas.appendChild($player);
 
-	// progresBar
-	const $progresBar = document.createElement('div');
-	$progresBar.classList.add('progresBar');
-	$player.appendChild($progresBar);
+	// progressbar
+	const $progressbar = document.createElement('div');
+	$progressbar.classList.add('progressbar');
+	$player.appendChild($progressbar);
 
 	const $life = document.createElement('div');
 	$life.classList.add('life');
-	$life.style.width = '100%';
-	$life.innerText = person.hp;
-	$progresBar.appendChild($life);
+	$life.style.width = `${person.hp}%`;
+	$progressbar.appendChild($life);
 
 	const $name = document.createElement('div');
 	$name.classList.add('name');
 	$name.innerText = person.name;
-	$progresBar.appendChild($name);
+	$progressbar.appendChild($name);
 
 	// character
 	const $character = document.createElement('div');
