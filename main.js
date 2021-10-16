@@ -1,4 +1,5 @@
 const $arenas = document.querySelector('.arenas');
+const $randomBtn = document.querySelector('.button');
 const player1 = {
 	player: 1,
 	name: 'Scorpion',
@@ -83,6 +84,30 @@ function createPlayer(person) {
 	$character.appendChild($img);
 
 	return $player;
+}
+
+$randomBtn.addEventListener('click', function () {
+	console.log('click random ');
+	changeHP(player1, 9);
+	changeHP(player2, 19);
+});
+function changeHP(player, damage) {
+	const $playerLife = document.querySelector('.player' + player.player + ' .life');
+	if (player.hp > 0) {
+		player.hp -= damage;
+	} else {
+		player.hp = 0;
+		$randomBtn.disabled = true;
+		$arenas.appendChild(playerLose(player.name));
+	}
+	$playerLife.style.width = player.hp + '%';
+	console.log('output : player.hp', player.hp);
+}
+
+function playerLose(name) {
+	const $loseTitle = createElement('div', 'loseTitle');
+	$loseTitle.innerText = name + ' lose';
+	return $loseTitle;
 }
 
 $arenas.appendChild(createPlayer(player1));
