@@ -13,7 +13,7 @@ const player1 = {
 const player2 = {
 	player: 2,
 	name: 'Kitana',
-	hp: 90,
+	hp: 100,
 	img: 'http://reactmarathon-api.herokuapp.com/assets/kitana.gif',
 	weapon: 'knife',
 	attack: function fight() {
@@ -68,7 +68,7 @@ function createPlayer(person) {
 	$player.appendChild($progressbar);
 
 	const $life = createElement('div', 'life');
-	$life.style.width = `${person.hp}%`;
+	$life.style.width = person.hp + '%';
 	$progressbar.appendChild($life);
 
 	const $name = createElement('div', 'name');
@@ -87,21 +87,19 @@ function createPlayer(person) {
 }
 
 $randomBtn.addEventListener('click', function () {
-	console.log('click random ');
-	changeHP(player1, 9);
-	changeHP(player2, 19);
+	changeHP(player1, randomDamage(20));
+	changeHP(player2, randomDamage(20));
+	checkWin();
 });
-function changeHP(player, damage) {
-	const $playerLife = document.querySelector('.player' + player.player + ' .life');
-	if (player.hp > 0) {
-		player.hp -= damage;
+function changeHP(playerObj, damage) {
+	const $playerLife = document.querySelector('.player' + playerObj.player + ' .life');
+	if (playerObj.hp > damage) {
+		playerObj.hp -= damage;
 	} else {
-		player.hp = 0;
+		playerObj.hp = 0;
 		$randomBtn.disabled = true;
-		$arenas.appendChild(playerLose(player.name));
 	}
-	$playerLife.style.width = player.hp + '%';
-	console.log('output : player.hp', player.hp);
+	$playerLife.style.width = playerObj.hp + '%';
 }
 
 function playerLose(name) {
@@ -109,6 +107,24 @@ function playerLose(name) {
 	$loseTitle.innerText = name + ' lose';
 	return $loseTitle;
 }
+function playerWin(name) {
+	const $winTitle = createElement('div', 'winTitle');
+	$winTitle.innerText = name + ' wins';
+	return $winTitle;
+}
 
+function checkWin() {
+	console.log('output:player1.hp ', player1.hp);
+	console.log('output:player2.hp ', player2.hp);
+	if (player1.hp <= 0 || player2.hp <= 0) {
+		player1.hp > player2.hp
+			? $arenas.appendChild(playerWin(player1.name))
+			: $arenas.appendChild(playerWin(player2.name));
+	}
+}
+function randomDamage(max) {
+	const random = Math.ceil(Math.random() * max);
+	return random;
+}
 $arenas.appendChild(createPlayer(player1));
 $arenas.appendChild(createPlayer(player2));
