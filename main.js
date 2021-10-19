@@ -9,6 +9,9 @@ const player1 = {
 	attack: function fight() {
 		console.log(this.name + ' fight... ');
 	},
+	changeHP: changeHP,
+	renderHP: renderHP,
+	elHP: elHP,
 };
 const player2 = {
 	player: 2,
@@ -19,6 +22,9 @@ const player2 = {
 	attack: function fight() {
 		console.log(this.name + ' fight... ');
 	},
+	changeHP: changeHP,
+	renderHP: renderHP,
+	elHP: elHP,
 };
 const player3 = {
 	player: 3,
@@ -29,6 +35,9 @@ const player3 = {
 	attack: function fight() {
 		console.log(this.name + ' fight... ');
 	},
+	changeHP: changeHP,
+	renderHP: renderHP,
+	elHP: elHP,
 };
 const player4 = {
 	player: 4,
@@ -39,16 +48,22 @@ const player4 = {
 	attack: function fight() {
 		console.log(this.name + ' fight... ');
 	},
+	changeHP: changeHP,
+	renderHP: renderHP,
+	elHP: elHP,
 };
 const player5 = {
 	player: 5,
 	name: 'Sub Zero',
-	hp: 50,
+	hp: 100,
 	img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
 	weapon: 'ice',
 	attack: function fight() {
 		console.log(this.name + ' fight... ');
 	},
+	changeHP: changeHP,
+	elHP: elHP,
+	renderHP: renderHP,
 };
 
 function createElement(tag, className) {
@@ -86,30 +101,31 @@ function createPlayer(person) {
 }
 
 $randomBtn.addEventListener('click', function () {
-	changeHP(player1, randomDamage(20));
-	changeHP(player2, randomDamage(20));
+	player1.changeHP(randomDamage(20));
+	player1.renderHP();
+	player2.changeHP(randomDamage(20));
+	player2.renderHP();
+
 	checkWin();
 });
-function changeHP(playerObj, damage) {
-	const $playerLife = document.querySelector('.player' + playerObj.player + ' .life');
-	if (playerObj.hp > damage) {
-		playerObj.hp -= damage;
+function changeHP(damage) {
+	if (this.hp > damage) {
+		this.hp -= damage;
 	} else {
-		playerObj.hp = 0;
+		this.hp = 0;
 	}
-	$playerLife.style.width = playerObj.hp + '%';
+}
+function elHP() {
+	const $elLife = document.querySelector('.player' + this.player + ' .life');
+	return $elLife;
+}
+function renderHP() {
+	this.elHP().style.width = this.hp + '%';
 }
 
-function playerLose(name) {
-	const $loseTitle = createElement('div', 'loseTitle');
-	$loseTitle.innerText = name + ' lose';
-	return $loseTitle;
-}
 function playerWin(name) {
 	const $winTitle = createElement('div', 'winTitle');
-
 	name ? ($winTitle.innerText = name + ' wins') : ($winTitle.innerText = 'Draw');
-
 	return $winTitle;
 }
 
