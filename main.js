@@ -1,5 +1,6 @@
 const $arenas = document.querySelector('.arenas');
 const $randomBtn = document.querySelector('.button');
+const $reload = createElement('div', 'reloadWrap');
 const player1 = {
 	player: 1,
 	name: 'Scorpion',
@@ -134,6 +135,7 @@ function checkWin() {
 	console.log('output:player2.hp ', player2.hp);
 	if (player1.hp <= 0 || player2.hp <= 0) {
 		$randomBtn.disabled = true;
+		createReloadButton();
 		if (player1.hp > player2.hp) {
 			$arenas.appendChild(getWinner(player1.name));
 		} else if (player1.hp < player2.hp) {
@@ -147,5 +149,17 @@ function getRandom(max) {
 	const random = Math.ceil(Math.random() * max);
 	return random;
 }
+
+function createReloadButton() {
+	const $btn = createElement('button', 'button');
+	$btn.innerText = 'Restart';
+	$reload.appendChild($btn);
+	$arenas.appendChild($reload);
+	console.log($reload);
+}
+$reload.addEventListener('click', () => {
+	window.location.reload();
+});
+
 $arenas.appendChild(createPlayer(player1));
 $arenas.appendChild(createPlayer(player2));
