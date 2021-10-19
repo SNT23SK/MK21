@@ -101,9 +101,9 @@ function createPlayer(person) {
 }
 
 $randomBtn.addEventListener('click', function () {
-	player1.changeHP(randomDamage(20));
+	player1.changeHP(getRandom(20));
 	player1.renderHP();
-	player2.changeHP(randomDamage(20));
+	player2.changeHP(getRandom(20));
 	player2.renderHP();
 
 	checkWin();
@@ -123,7 +123,7 @@ function renderHP() {
 	this.elHP().style.width = this.hp + '%';
 }
 
-function playerWin(name) {
+function getWinner(name) {
 	const $winTitle = createElement('div', 'winTitle');
 	name ? ($winTitle.innerText = name + ' wins') : ($winTitle.innerText = 'Draw');
 	return $winTitle;
@@ -135,15 +135,15 @@ function checkWin() {
 	if (player1.hp <= 0 || player2.hp <= 0) {
 		$randomBtn.disabled = true;
 		if (player1.hp > player2.hp) {
-			$arenas.appendChild(playerWin(player1.name));
+			$arenas.appendChild(getWinner(player1.name));
 		} else if (player1.hp < player2.hp) {
-			$arenas.appendChild(playerWin(player2.name));
+			$arenas.appendChild(getWinner(player2.name));
 		} else {
-			$arenas.appendChild(playerWin());
+			$arenas.appendChild(getWinner());
 		}
 	}
 }
-function randomDamage(max) {
+function getRandom(max) {
 	const random = Math.ceil(Math.random() * max);
 	return random;
 }
