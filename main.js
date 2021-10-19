@@ -40,7 +40,6 @@ const player4 = {
 		console.log(this.name + ' fight... ');
 	},
 };
-
 const player5 = {
 	player: 5,
 	name: 'Sub Zero',
@@ -97,7 +96,6 @@ function changeHP(playerObj, damage) {
 		playerObj.hp -= damage;
 	} else {
 		playerObj.hp = 0;
-		$randomBtn.disabled = true;
 	}
 	$playerLife.style.width = playerObj.hp + '%';
 }
@@ -109,7 +107,9 @@ function playerLose(name) {
 }
 function playerWin(name) {
 	const $winTitle = createElement('div', 'winTitle');
-	$winTitle.innerText = name + ' wins';
+
+	name ? ($winTitle.innerText = name + ' wins') : ($winTitle.innerText = 'Draw');
+
 	return $winTitle;
 }
 
@@ -117,9 +117,14 @@ function checkWin() {
 	console.log('output:player1.hp ', player1.hp);
 	console.log('output:player2.hp ', player2.hp);
 	if (player1.hp <= 0 || player2.hp <= 0) {
-		player1.hp > player2.hp
-			? $arenas.appendChild(playerWin(player1.name))
-			: $arenas.appendChild(playerWin(player2.name));
+		$randomBtn.disabled = true;
+		if (player1.hp > player2.hp) {
+			$arenas.appendChild(playerWin(player1.name));
+		} else if (player1.hp < player2.hp) {
+			$arenas.appendChild(playerWin(player2.name));
+		} else {
+			$arenas.appendChild(playerWin());
+		}
 	}
 }
 function randomDamage(max) {
