@@ -164,7 +164,7 @@ function createReloadButton() {
 	$btn.innerText = 'Restart';
 	$reload.appendChild($btn);
 	$arenas.appendChild($reload);
-	console.log($reload);
+	// console.log($reload);
 	$reload.addEventListener('click', () => {
 		window.location.reload();
 	});
@@ -172,8 +172,6 @@ function createReloadButton() {
 function enemyAttack() {
 	const hit = ATTACK[getRandom(3) - 1];
 	const defence = ATTACK[getRandom(3) - 1];
-	console.log('output hit: ', hit);
-	console.log('output defence: ', defence);
 	return {
 		value: getRandom(HIT[hit]),
 		hit,
@@ -184,12 +182,22 @@ function enemyAttack() {
 $formFight.addEventListener('submit', function (e) {
 	e.preventDefault();
 	const enemy = enemyAttack();
+	console.log('#### enemy: ', enemy);
+
 	const attack = {};
-	console.dir($formFight);
+	// console.dir($formFight);
 
 	for (const item of $formFight) {
-		console.dir(item);
+		if (item.checked && item.name === 'hit') {
+			attack.value = getRandom(HIT[item.value]);
+			attack.hit = item.value;
+		}
+		if (item.checked && item.name === 'defence') {
+			attack.defence = item.value;
+		}
 	}
+
+	console.log('#### attack: ', attack);
 });
 
 $arenas.appendChild(createPlayer(player1));
