@@ -191,23 +191,17 @@ $formFight.addEventListener('submit', function (e) {
 		}
 		item.checked = false;
 	}
-	const enemyDamage = checkAttack(enemy, attack).enemyHit;
-	const myDamage = checkAttack(enemy, attack).myHit;
-	getDamage(player1, enemyDamage);
-	getDamage(player2, myDamage);
+	getDamage(player1, checkAttack(enemy, attack));
+	getDamage(player2, checkAttack(attack, enemy));
 	checkWin();
 });
 
 function checkAttack(enemy, attack) {
-	let myHit = 0;
-	let enemyHit = 0;
+	let hit = 0;
 	if (attack.hit !== enemy.defence) {
-		myHit = attack.value;
+		hit = attack.value;
 	}
-	if (enemy.hit !== attack.defence) {
-		enemyHit = enemy.value;
-	}
-	return { myHit, enemyHit };
+	return hit;
 }
 
 function getDamage(player, damage) {
