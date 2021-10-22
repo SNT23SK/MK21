@@ -1,6 +1,7 @@
 const $arenas = document.querySelector('.arenas');
 const $randomBtn = document.querySelector('.button');
 const $formFight = document.querySelector('.control');
+const $chat = document.querySelector('.chat');
 const player1 = {
 	player: 1,
 	name: 'Scorpion',
@@ -108,13 +109,6 @@ function createPlayer(person) {
 	return $player;
 }
 
-// $randomBtn.addEventListener('click', function () {
-// 	player1.changeHP(getRandom(20));
-// 	player1.renderHP();
-// 	player2.changeHP(getRandom(20));
-// 	player2.renderHP();
-// 	checkWin();
-// });
 function changeHP(damage) {
 	if (this.hp > damage) {
 		this.hp -= damage;
@@ -176,11 +170,8 @@ function enemyAttack() {
 	};
 }
 
-$formFight.addEventListener('submit', function (e) {
-	e.preventDefault();
-	const enemy = enemyAttack();
+function heroAttack() {
 	const attack = {};
-
 	for (const item of $formFight) {
 		if (item.checked && item.name === 'hit') {
 			attack.value = getRandom(HIT[item.value]);
@@ -191,15 +182,12 @@ $formFight.addEventListener('submit', function (e) {
 		}
 		item.checked = false;
 	}
-	getDamage(player1, checkAttack(enemy, attack));
-	getDamage(player2, checkAttack(attack, enemy));
-	checkWin();
-});
-
-function checkAttack(enemy, attack) {
+	return attack;
+}
+function checkAttack(enemy, hero) {
 	let hit = 0;
-	if (attack.hit !== enemy.defence) {
-		hit = attack.value;
+	if (hero.hit !== enemy.defence) {
+		hit = hero.value;
 	}
 	return hit;
 }
@@ -208,6 +196,15 @@ function getDamage(player, damage) {
 	player.changeHP(damage);
 	player.renderHP();
 }
+
+$formFight.addEventListener('submit', function (e) {
+	e.preventDefault();
+	const enemy = enemyAttack();
+	const hero = heroAttack();
+	getDamage(player1, checkAttack(enemy, hero));
+	getDamage(player2, checkAttack(hero, enemy));
+	checkWin();
+});
 
 $arenas.appendChild(createPlayer(player1));
 $arenas.appendChild(createPlayer(player2));
