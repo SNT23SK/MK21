@@ -114,26 +114,37 @@ const logs = {
 	draw: 'Ничья - это тоже победа!',
 };
 function generateLog(type, player1, player2) {
+	const today = new Date();
+	// if (today.getMinutes() < 15) {
+	// 	const time = `${today.getHours()}:0${today.getMinutes()}`;
+	// 	console.log('#### today.getMinutes(): ', time);
+	// }
+	const time = `${today.getHours()}:${today.getMinutes()}`;
+	const random = getRandom(logs[type].length - 1);
 	switch (type) {
 		case 'start':
-			const today = new Date();
-			const time = `${today.getHours()}:${today.getMinutes()}`;
-			const start = logs[type]
+			const startEl = logs[type]
 				.replace('[time]', time)
 				.replace('[player1]', player1.name)
 				.replace('[player2]', player2.name);
-			$chat.insertAdjacentHTML('afterbegin', start);
+			$chat.insertAdjacentHTML('afterbegin', startEl);
 			break;
 		case 'end':
-			console.log('#### end: ');
+			console.log('#### end: ', random);
+			const endEl = logs[type][random]
+				.replace('[playerWins]', player1.name)
+				.replace('[playerLose]', player2.name);
+			$chat.insertAdjacentHTML('afterbegin', endEl);
 			break;
 		case 'hit':
-			const random = getRandom(logs[type].length - 1);
 			const text = logs[type][random]
 				.replace('[playerKick]', player1.name)
 				.replace('[playerDefence]', player2.name);
-			const el = `<p>${text}</p>`;
+			const el = `<p>${time} ${text}</p>`;
 			$chat.insertAdjacentHTML('afterbegin', el);
+			break;
+		case 'draw':
+			console.log('#### draw : ');
 			break;
 	}
 }
@@ -194,17 +205,18 @@ function getWinner(name) {
 }
 
 function checkWin() {
-	console.log('output:player1.hp ', player1.hp);
-	console.log('output:player2.hp ', player2.hp);
 	if (player1.hp <= 0 || player2.hp <= 0) {
 		$randomBtn.disabled = true;
 		createReloadButton();
 		if (player1.hp > player2.hp) {
 			$arenas.appendChild(getWinner(player1.name));
+			generateLog('end', player1, player2);
 		} else if (player1.hp < player2.hp) {
 			$arenas.appendChild(getWinner(player2.name));
+			generateLog('end', player2, player1);
 		} else {
 			$arenas.appendChild(getWinner());
+			generateLog('draw', player1, player2);
 		}
 	}
 }
