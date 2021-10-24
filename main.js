@@ -138,7 +138,6 @@ function generateLog(type, player1, player2) {
 				.replace('[playerDefence]', player2.name);
 			const el = `<p>${time} ${text} -${100 - player1.hp}  ${player1.hp}/100</p>`;
 			console.log('#### enemy: ');
-
 			$chat.insertAdjacentHTML('afterbegin', el);
 			break;
 		case 'draw':
