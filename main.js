@@ -115,10 +115,6 @@ const logs = {
 };
 function generateLog(type, player1, player2) {
 	const today = new Date();
-	// if (today.getMinutes() < 15) {
-	// 	const time = `${today.getHours()}:0${today.getMinutes()}`;
-	// 	console.log('#### today.getMinutes(): ', time);
-	// }
 	const time = `${today.getHours()}:${today.getMinutes()}`;
 	const random = getRandom(logs[type].length - 1);
 	switch (type) {
@@ -140,7 +136,9 @@ function generateLog(type, player1, player2) {
 			const text = logs[type][random]
 				.replace('[playerKick]', player1.name)
 				.replace('[playerDefence]', player2.name);
-			const el = `<p>${time} ${text}</p>`;
+			const el = `<p>${time} ${text} -${100 - player1.hp}  ${player1.hp}/100</p>`;
+			console.log('#### enemy: ');
+
 			$chat.insertAdjacentHTML('afterbegin', el);
 			break;
 		case 'draw':
