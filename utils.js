@@ -6,7 +6,5 @@ export function normalize(num) {
 }
 export function getRandom(max) {
 	const random = Math.ceil(Math.random() * max);
-	console.log('#### random: ', random);
-
 	return random;
 }
