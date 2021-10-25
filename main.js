@@ -1,3 +1,5 @@
+import { normalize, getRandom } from './utils.js';
+
 const $arenas = document.querySelector('.arenas');
 const $randomBtn = document.querySelector('.button');
 const $formFight = document.querySelector('.control');
@@ -111,47 +113,41 @@ const logs = {
 		'[playerKick] не думал о бое, потому расстроенный [playerDefence] отпрыгнул от удара кулаком куда обычно не бьют.',
 		'[playerKick] обманулся и жестокий [playerDefence] блокировал удар стопой в солнечное сплетение.',
 	],
-	draw: 'Ничья - это тоже победа!',
+	draw: ['Ничья - это тоже победа! ', 'В этом поединке нет победителя! '],
 };
-
-function normalize(num) {
-	if (num < 10) {
-		num = '0' + num;
-	}
-	return num;
-}
 
 function generateLog(type, player1, player2) {
 	const today = new Date();
-	let hh = normalize(today.getHours());
-	let mm = normalize(today.getMinutes());
-	const time = `${hh}:${mm}`;
-	const random = getRandom(logs[type].length - 1);
+	const hh = normalize(today.getHours());
+	const mm = normalize(today.getMinutes());
+	const ss = normalize(today.getSeconds());
+	const random = getRandom(logs[type].length) - 1;
 	switch (type) {
 		case 'start':
 			const startEl = logs[type]
-				.replace('[time]', time)
+				.replace('[time]', `${hh}:${mm}`)
 				.replace('[player1]', player1.name)
 				.replace('[player2]', player2.name);
 			$chat.insertAdjacentHTML('afterbegin', startEl);
-			break;
-		case 'end':
-			console.log('#### end: ', random);
-			const endEl = logs[type][random]
-				.replace('[playerWins]', player1.name)
-				.replace('[playerLose]', player2.name);
-			$chat.insertAdjacentHTML('afterbegin', endEl);
 			break;
 		case 'hit':
 			const text = logs[type][random]
 				.replace('[playerKick]', player1.name)
 				.replace('[playerDefence]', player2.name);
-			const el = `<p>${time} ${text} -${100 - player1.hp}  ${player1.hp}/100</p>`;
+			const time = `${hh}:${mm}:${ss}`;
+			const el = `<p>${time} ${text} -${100 - player2.hp}  ${player2.hp}/100</p>`;
 			console.log('#### enemy: ');
 			$chat.insertAdjacentHTML('afterbegin', el);
 			break;
+		case 'end':
+			const endEl = logs[type][random]
+				.replace('[playerWins]', player1.name)
+				.replace('[playerLose]', player2.name);
+			$chat.insertAdjacentHTML('afterbegin', endEl);
+			break;
 		case 'draw':
-			console.log('#### draw : ');
+			const drawEl = logs[type][random];
+			$chat.insertAdjacentHTML('afterbegin', drawEl);
 			break;
 	}
 }
@@ -227,10 +223,6 @@ function checkWin() {
 		}
 	}
 }
-function getRandom(max) {
-	const random = Math.ceil(Math.random() * max);
-	return random;
-}
 
 function createReloadButton() {
 	const $reload = createElement('div', 'reloadWrap');
@@ -251,7 +243,6 @@ function enemyAttack() {
 		defence,
 	};
 }
-
 function heroAttack() {
 	const attack = {};
 	for (const item of $formFight) {
@@ -267,13 +258,16 @@ function heroAttack() {
 	return attack;
 }
 function checkAttack(enemy, hero) {
-	let hit = 0;
 	if (hero.hit !== enemy.defence) {
-		hit = hero.value;
-		// generateLog('hit', player1, player2);
+		getDamage(player2, hero.value);
+		generateLog('hit', player1, player2);
+		console.log('#### Первый ударил , а второй получил : ', hero.value);
 	}
-
-	return hit;
+	if (enemy.hit !== hero.defence) {
+		getDamage(player1, enemy.value);
+		generateLog('hit', player2, player1);
+		console.log('#### Второй ударил , а первый получил : ', enemy.value);
+	}
 }
 
 function getDamage(player, damage) {
@@ -285,10 +279,7 @@ $formFight.addEventListener('submit', function (e) {
 	e.preventDefault();
 	const enemy = enemyAttack();
 	const hero = heroAttack();
-	getDamage(player1, checkAttack(enemy, hero));
-	generateLog('hit', player2, player1);
-	getDamage(player2, checkAttack(hero, enemy));
-	generateLog('hit', player1, player2);
+	checkAttack(enemy, hero);
 	checkWin();
 });
 
