@@ -1,9 +1,8 @@
-import { normalize, getRandom } from './utils.js';
-import { logs } from './logs.js';
+import { getRandom } from './utils.js';
+import { generateLog } from './logs.js';
 const $arenas = document.querySelector('.arenas');
 const $randomBtn = document.querySelector('.button');
 const $formFight = document.querySelector('.control');
-const $chat = document.querySelector('.chat');
 const player1 = {
 	player: 1,
 	name: 'Scorpion',
@@ -66,56 +65,6 @@ const HIT = {
 	foot: 20,
 };
 const ATTACK = ['head', 'body', 'foot'];
-
-function generateLog(type, player1, player2) {
-	const today = new Date();
-	const {
-		hh = normalize(today.getHours()),
-		mm = normalize(today.getMinutes()),
-		ss = normalize(today.getSeconds()),
-	} = today;
-	const time = `${hh}:${mm}:${ss}`;
-	const random = getRandom(logs[type].length) - 1;
-	switch (type) {
-		case 'start':
-			const textStart = logs[type]
-				.replace('[time]', `${hh}:${mm}`)
-				.replace('[player1]', player1.name)
-				.replace('[player2]', player2.name);
-			const startEl = `<p>${textStart}</p>`;
-			$chat.insertAdjacentHTML('afterbegin', startEl);
-			break;
-		case 'hit':
-			const textHit = logs[type][random]
-				.replace('[playerKick]', player1.name)
-				.replace('[playerDefence]', player2.name);
-			const elHit = `<p>${time} ${textHit} -${100 - player2.hp}  ${player2.hp}/100</p>`;
-			$chat.insertAdjacentHTML('afterbegin', elHit);
-			const $pHit = document.querySelector('p');
-			$pHit.style.color = '#cd0e03';
-			break;
-		case 'defence':
-			const textDef = logs[type][random]
-				.replace('[playerKick]', player1.name)
-				.replace('[playerDefence]', player2.name);
-			const elDef = `<p>${time} ${textDef} -${100 - player2.hp}  ${player2.hp}/100</p>`;
-			$chat.insertAdjacentHTML('afterbegin', elDef);
-			const $pDef = document.querySelector('p');
-			$pDef.style.color = '#0431f9';
-			break;
-		case 'end':
-			const textEnd = logs[type][random]
-				.replace('[playerWins]', player1.name)
-				.replace('[playerLose]', player2.name);
-			const endEl = `<p>${textEnd}</p>`;
-			$chat.insertAdjacentHTML('afterbegin', endEl);
-			break;
-		case 'draw':
-			const drawEl = logs[type][random];
-			$chat.insertAdjacentHTML('afterbegin', drawEl);
-			break;
-	}
-}
 
 function createElement(tag, className) {
 	const $tag = document.createElement(tag);
