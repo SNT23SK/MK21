@@ -114,7 +114,7 @@ const logs = {
 	draw: 'Ничья - это тоже победа!',
 };
 
-function getZero(num) {
+function normalize(num) {
 	if (num < 10) {
 		num = '0' + num;
 	}
@@ -123,8 +123,8 @@ function getZero(num) {
 
 function generateLog(type, player1, player2) {
 	const today = new Date();
-	let hh = getZero(today.getHours());
-	let mm = getZero(today.getMinutes());
+	let hh = normalize(today.getHours());
+	let mm = normalize(today.getMinutes());
 	const time = `${hh}:${mm}`;
 	const random = getRandom(logs[type].length - 1);
 	switch (type) {
