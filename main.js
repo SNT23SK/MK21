@@ -113,9 +113,19 @@ const logs = {
 	],
 	draw: 'Ничья - это тоже победа!',
 };
+
+function getZero(num) {
+	if (num < 10) {
+		num = '0' + num;
+	}
+	return num;
+}
+
 function generateLog(type, player1, player2) {
 	const today = new Date();
-	const time = `${today.getHours()}:${today.getMinutes()}`;
+	let hh = getZero(today.getHours());
+	let mm = getZero(today.getMinutes());
+	const time = `${hh}:${mm}`;
 	const random = getRandom(logs[type].length - 1);
 	switch (type) {
 		case 'start':
@@ -260,6 +270,7 @@ function checkAttack(enemy, hero) {
 	let hit = 0;
 	if (hero.hit !== enemy.defence) {
 		hit = hero.value;
+		// generateLog('hit', player1, player2);
 	}
 
 	return hit;
