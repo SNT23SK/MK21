@@ -76,7 +76,6 @@ export function getDamage(player, damage) {
 	player.changeHP(damage);
 	player.renderHP();
 }
-
 export function createPlayer(person) {
 	const { player, hp, name, img } = person;
 

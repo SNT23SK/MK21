@@ -2,15 +2,15 @@ import { getRandom } from './utils.js';
 import { generateLog } from './logs.js';
 import { getDamage, createElement } from './player.js';
 import { player1, player2 } from './player.js';
-const $randomBtn = document.querySelector('.button');
-const $formFight = document.querySelector('.control');
-const $arenas = document.querySelector('.arenas');
-const ATTACK = ['head', 'body', 'foot'];
-const HIT = {
-	head: 30,
-	body: 25,
-	foot: 20,
-};
+const $randomBtn = document.querySelector('.button'),
+	$formFight = document.querySelector('.control'),
+	$arenas = document.querySelector('.arenas'),
+	ATTACK = ['head', 'body', 'foot'],
+	HIT = {
+		head: 30,
+		body: 25,
+		foot: 20,
+	};
 export function checkWin() {
 	const { hp: hp1, name: name1 } = player1;
 	const { hp: hp2, name: name2 } = player2;

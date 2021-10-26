@@ -11,7 +11,6 @@ $formFight.addEventListener('submit', function (e) {
 	checkAttack(enemy, hero);
 	checkWin();
 });
-
 $arenas.appendChild(createPlayer(player1));
 $arenas.appendChild(createPlayer(player2));
 generateLog('start', player1, player2);
