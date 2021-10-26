@@ -47,38 +47,40 @@ export function generateLog(type, player1, player2) {
 		ss = normalize(today.getSeconds()),
 	} = today;
 	const time = `${hh}:${mm}:${ss}`;
+	const { name: name1, hp: hp1 } = player1;
+	const { name: name2, hp: hp2 } = player2;
 	const random = getRandom(logs[type].length) - 1;
 	switch (type) {
 		case 'start':
 			const textStart = logs[type]
 				.replace('[time]', `${hh}:${mm}`)
-				.replace('[player1]', player1.name)
-				.replace('[player2]', player2.name);
+				.replace('[player1]', name1)
+				.replace('[player2]', name2);
 			const startEl = `<p>${textStart}</p>`;
 			$chat.insertAdjacentHTML('afterbegin', startEl);
 			break;
 		case 'hit':
 			const textHit = logs[type][random]
-				.replace('[playerKick]', player1.name)
-				.replace('[playerDefence]', player2.name);
-			const elHit = `<p>${time} ${textHit} -${100 - player2.hp}  ${player2.hp}/100</p>`;
+				.replace('[playerKick]', name1)
+				.replace('[playerDefence]', name2);
+			const elHit = `<p>${time} ${textHit} -${100 - hp2}  ${hp2}/100</p>`;
 			$chat.insertAdjacentHTML('afterbegin', elHit);
 			const $pHit = document.querySelector('p');
 			$pHit.style.color = '#cd0e03';
 			break;
 		case 'defence':
 			const textDef = logs[type][random]
-				.replace('[playerKick]', player1.name)
-				.replace('[playerDefence]', player2.name);
-			const elDef = `<p>${time} ${textDef} -${100 - player2.hp}  ${player2.hp}/100</p>`;
+				.replace('[playerKick]', name1)
+				.replace('[playerDefence]', name2);
+			const elDef = `<p>${time} ${textDef} -${100 - hp2}  ${hp2}/100</p>`;
 			$chat.insertAdjacentHTML('afterbegin', elDef);
 			const $pDef = document.querySelector('p');
 			$pDef.style.color = '#0431f9';
 			break;
 		case 'end':
 			const textEnd = logs[type][random]
-				.replace('[playerWins]', player1.name)
-				.replace('[playerLose]', player2.name);
+				.replace('[playerWins]', name1)
+				.replace('[playerLose]', name2);
 			const endEl = `<p>${textEnd}</p>`;
 			$chat.insertAdjacentHTML('afterbegin', endEl);
 			break;

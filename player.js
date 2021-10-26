@@ -56,11 +56,7 @@ const player5 = {
 	elHP,
 };
 function changeHP(damage) {
-	if (this.hp > damage) {
-		this.hp -= damage;
-	} else {
-		this.hp = 0;
-	}
+	this.hp > damage ? (this.hp -= damage) : (this.hp = 0);
 }
 function elHP() {
 	const $elLife = document.querySelector('.player' + this.player + ' .life');
