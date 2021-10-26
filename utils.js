@@ -1,4 +1,2 @@
-export function getRandom(max) {
-	const random = Math.ceil(Math.random() * max);
-	return random;
-}
+const getRandom = (max) => Math.ceil(Math.random() * max);
+export { getRandom };
