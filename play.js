@@ -83,4 +83,4 @@ function createReloadButton() {
 		window.location.reload();
 	});
 }
-export { checkWin, enemyAttack, checkAttack, attack };
+export { checkWin, enemyAttack, checkAttack, attack, $formFight, $arenas };
