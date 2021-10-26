@@ -40,20 +40,16 @@ const logs = {
 	draw: ['Ничья - это тоже победа! ', 'В этом поединке нет победителя! '],
 };
 export function generateLog(type, player1, player2, damage) {
-	const today = new Date();
-	const {
-		hh = normalize(today.getHours()),
-		mm = normalize(today.getMinutes()),
-		ss = normalize(today.getSeconds()),
-	} = today;
-	const time = `${hh}:${mm}:${ss}`;
-	const { name: name1, hp: hp1 } = player1;
-	const { name: name2, hp: hp2 } = player2;
-	const random = getRandom(logs[type].length) - 1;
+	const today = new Date(),
+		time = today.toLocaleTimeString(),
+		startTime = today.toLocaleTimeString().slice(0, -3),
+		{ name: name1, hp: hp1 } = player1,
+		{ name: name2, hp: hp2 } = player2,
+		random = getRandom(logs[type].length) - 1;
 	switch (type) {
 		case 'start':
 			const textStart = logs[type]
-				.replace('[time]', `${hh}:${mm}`)
+				.replace('[time]', startTime)
 				.replace('[player1]', name1)
 				.replace('[player2]', name2);
 			const startEl = `<p>${textStart}</p>`;
