@@ -60,21 +60,23 @@ export function generateLog(type, player1, player2) {
 			$chat.insertAdjacentHTML('afterbegin', startEl);
 			break;
 		case 'hit':
+			// name2 = `<span class='red'>-${name2}`;
 			const textHit = logs[type][random]
 				.replace('[playerKick]', name1)
 				.replace('[playerDefence]', name2);
-			const elHit = `<p>${time} ${textHit} -${100 - hp2}  ${hp2}/100</p>`;
+			const hit = `<span class='red'>-${100 - hp2}</span>`;
+			const elHit = `<p>${time} ${textHit} ${hit}  ${hp2}/100</p>`;
 			$chat.insertAdjacentHTML('afterbegin', elHit);
-			const $pHit = document.querySelector('p');
-			$pHit.style.color = '#cd0e03';
+			const $spanHit = document.querySelector('.red');
+			$spanHit.style.color = '#cd0e03';
 			break;
 		case 'defence':
 			const textDef = logs[type][random]
 				.replace('[playerKick]', name1)
 				.replace('[playerDefence]', name2);
-			const elDef = `<p>${time} ${textDef} -${100 - hp2}  ${hp2}/100</p>`;
+			const elDef = `<p>${time} ${textDef} <span class='blue'>-${100 - hp2}</span>  ${hp2}/100</p>`;
 			$chat.insertAdjacentHTML('afterbegin', elDef);
-			const $pDef = document.querySelector('p');
+			const $pDef = document.querySelector('.blue');
 			$pDef.style.color = '#0431f9';
 			break;
 		case 'end':
