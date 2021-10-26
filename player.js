@@ -78,27 +78,24 @@ export function getDamage(player, damage) {
 }
 
 export function createPlayer(person) {
-	const $player = createElement('div', 'player' + person.player);
+	const { player, hp, name, img } = person;
 
-	// progressbar
-	const $progressbar = createElement('div', 'progressbar');
+	const $player = createElement('div', 'player' + player),
+		$progressbar = createElement('div', 'progressbar'),
+		$life = createElement('div', 'life'),
+		$name = createElement('div', 'name'),
+		$character = createElement('div', 'character'),
+		$img = createElement('img');
+
 	$player.appendChild($progressbar);
-
-	const $life = createElement('div', 'life');
-	$life.style.width = person.hp + '%';
 	$progressbar.appendChild($life);
-
-	const $name = createElement('div', 'name');
-	$name.innerText = person.name;
 	$progressbar.appendChild($name);
-
-	// character
-	const $character = createElement('div', 'character');
 	$player.appendChild($character);
-
-	const $img = createElement('img');
-	$img.src = person.img;
 	$character.appendChild($img);
+
+	$life.style.width = hp + '%';
+	$name.innerText = name;
+	$img.src = img;
 
 	return $player;
 }
