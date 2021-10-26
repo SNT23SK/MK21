@@ -54,7 +54,7 @@ function checkAttack(enemy, hero) {
 		generateLog('defence', player2, player1, enemy.value);
 	}
 }
-function attack() {
+const attack = () => {
 	const attack = {};
 	for (const item of $formFight) {
 		if (item.checked && item.name === 'hit') {
@@ -67,7 +67,7 @@ function attack() {
 		item.checked = false;
 	}
 	return attack;
-}
+};
 function getWinner(name) {
 	const $winTitle = createElement('div', 'winTitle');
 	name ? ($winTitle.innerText = name + ' wins') : ($winTitle.innerText = 'Draw');
