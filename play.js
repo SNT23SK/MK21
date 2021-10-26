@@ -41,17 +41,17 @@ function enemyAttack() {
 function checkAttack(enemy, hero) {
 	if (hero.hit !== enemy.defence) {
 		getDamage(player2, hero.value);
-		generateLog('hit', player1, player2);
+		generateLog('hit', player1, player2, hero.value);
 	}
 	if (hero.hit === enemy.defence) {
-		generateLog('defence', player1, player2);
+		generateLog('defence', player1, player2, hero.value);
 	}
 	if (enemy.hit !== hero.defence) {
 		getDamage(player1, enemy.value);
-		generateLog('hit', player2, player1);
+		generateLog('hit', player2, player1, enemy.value);
 	}
 	if (enemy.hit === hero.defence) {
-		generateLog('defence', player2, player1);
+		generateLog('defence', player2, player1, enemy.value);
 	}
 }
 function attack() {

@@ -39,7 +39,7 @@ const logs = {
 	],
 	draw: ['Ничья - это тоже победа! ', 'В этом поединке нет победителя! '],
 };
-export function generateLog(type, player1, player2) {
+export function generateLog(type, player1, player2, damage) {
 	const today = new Date();
 	const {
 		hh = normalize(today.getHours()),
@@ -60,11 +60,10 @@ export function generateLog(type, player1, player2) {
 			$chat.insertAdjacentHTML('afterbegin', startEl);
 			break;
 		case 'hit':
-			// name2 = `<span class='red'>-${name2}`;
 			const textHit = logs[type][random]
 				.replace('[playerKick]', name1)
 				.replace('[playerDefence]', name2);
-			const hit = `<span class='red'>-${100 - hp2}</span>`;
+			const hit = `<span class='red'>-${damage}</span>`;
 			const elHit = `<p>${time} ${textHit} ${hit}  ${hp2}/100</p>`;
 			$chat.insertAdjacentHTML('afterbegin', elHit);
 			const $spanHit = document.querySelector('.red');
@@ -74,7 +73,7 @@ export function generateLog(type, player1, player2) {
 			const textDef = logs[type][random]
 				.replace('[playerKick]', name1)
 				.replace('[playerDefence]', name2);
-			const elDef = `<p>${time} ${textDef} <span class='blue'>-${100 - hp2}</span>  ${hp2}/100</p>`;
+			const elDef = `<p>${time} ${textDef} <span class='blue'>-${damage}</span>  ${hp2}/100</p>`;
 			$chat.insertAdjacentHTML('afterbegin', elDef);
 			const $pDef = document.querySelector('.blue');
 			$pDef.style.color = '#0431f9';
