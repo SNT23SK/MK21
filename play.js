@@ -11,7 +11,7 @@ const $randomBtn = document.querySelector('.button'),
 		body: 25,
 		foot: 20,
 	};
-export function checkWin() {
+function checkWin() {
 	const { hp: hp1, name: name1 } = player1;
 	const { hp: hp2, name: name2 } = player2;
 	if (hp1 <= 0 || hp2 <= 0) {
@@ -29,7 +29,7 @@ export function checkWin() {
 		}
 	}
 }
-export function enemyAttack() {
+function enemyAttack() {
 	const hit = ATTACK[getRandom(3) - 1];
 	const defence = ATTACK[getRandom(3) - 1];
 	return {
@@ -38,7 +38,7 @@ export function enemyAttack() {
 		defence,
 	};
 }
-export function checkAttack(enemy, hero) {
+function checkAttack(enemy, hero) {
 	if (hero.hit !== enemy.defence) {
 		getDamage(player2, hero.value);
 		generateLog('hit', player1, player2);
@@ -54,7 +54,7 @@ export function checkAttack(enemy, hero) {
 		generateLog('defence', player2, player1);
 	}
 }
-export function attack() {
+function attack() {
 	const attack = {};
 	for (const item of $formFight) {
 		if (item.checked && item.name === 'hit') {
@@ -68,7 +68,7 @@ export function attack() {
 	}
 	return attack;
 }
-export function getWinner(name) {
+function getWinner(name) {
 	const $winTitle = createElement('div', 'winTitle');
 	name ? ($winTitle.innerText = name + ' wins') : ($winTitle.innerText = 'Draw');
 	return $winTitle;
@@ -83,3 +83,4 @@ function createReloadButton() {
 		window.location.reload();
 	});
 }
+export { checkWin, enemyAttack, checkAttack, attack };

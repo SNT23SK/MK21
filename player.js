@@ -1,6 +1,6 @@
 import { attack } from './play.js';
 
-export const player1 = {
+const player1 = {
 	player: 1,
 	name: 'Scorpion',
 	hp: 100,
@@ -11,7 +11,7 @@ export const player1 = {
 	renderHP,
 	elHP,
 };
-export const player2 = {
+const player2 = {
 	player: 2,
 	name: 'Sub Zero',
 	hp: 100,
@@ -65,18 +65,18 @@ function elHP() {
 function renderHP() {
 	this.elHP().style.width = this.hp + '%';
 }
-export function createElement(tag, className) {
+function createElement(tag, className) {
 	const $tag = document.createElement(tag);
 	if (className) {
 		$tag.classList.add(className);
 	}
 	return $tag;
 }
-export function getDamage(player, damage) {
+function getDamage(player, damage) {
 	player.changeHP(damage);
 	player.renderHP();
 }
-export function createPlayer(person) {
+function createPlayer(person) {
 	const { player, hp, name, img } = person;
 
 	const $player = createElement('div', 'player' + player),
@@ -98,3 +98,4 @@ export function createPlayer(person) {
 
 	return $player;
 }
+export { createElement, getDamage, createPlayer, player1, player2 };
