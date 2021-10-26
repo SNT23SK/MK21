@@ -1,13 +1,6 @@
 import { generateLog } from './logs.js';
-import {
-	createPlayer,
-	checkAttack,
-	attack,
-	enemyAttack,
-	checkWin,
-	player1,
-	player2,
-} from './player.js';
+import { createPlayer, player1, player2 } from './player.js';
+import { checkAttack, attack, enemyAttack, checkWin } from './play.js';
 const $arenas = document.querySelector('.arenas');
 const $formFight = document.querySelector('.control');
 
