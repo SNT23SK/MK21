@@ -1,4 +1,4 @@
-import { normalize, getRandom } from './utils.js';
+import { getRandom } from './utils.js';
 const $chat = document.querySelector('.chat');
 const logs = {
 	start: 'Часы показывали [time], когда [player1] и [player2] бросили вызов друг другу.',
