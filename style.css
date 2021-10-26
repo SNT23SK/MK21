@@ -53,7 +53,7 @@ body {
 
 .wall-right {
 	position: absolute;
-	width: 100px;
+	width: 87px;
 	background-image: url(./assets/wall-right.png);
 	min-height: 100vh;
 	background-size: contain;
@@ -407,4 +407,7 @@ input[type='radio']:checked + label > span::before {
 }
 input[type='radio']:checked + label > span:hover {
 	background: none;
+}
+.chat::-webkit-scrollbar {
+	width: 0;
 }
