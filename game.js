@@ -11,6 +11,12 @@ const $randomBtn = document.querySelector('.button'),
 		body: 25,
 		foot: 20,
 	};
+class Game {
+	constructor() {
+		this.start = start;
+	}
+}
+
 function checkWin() {
 	const { hp: hp1, name: name1 } = player1;
 	const { hp: hp2, name: name2 } = player2;
@@ -96,4 +102,4 @@ function start() {
 	generateLog('start', player1, player2);
 }
 
-export { start, checkWin, enemyAttack, checkAttack, attack, $formFight, $arenas };
+export { Game };
