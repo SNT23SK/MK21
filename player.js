@@ -1,6 +1,20 @@
 import { attack } from './play.js';
 
-const player1 = {
+class Player {
+	constructor(props) {
+		this.player = props.player;
+		this.hp = props.hp;
+		this.name = props.name;
+		this.img = props.img;
+		this.weapon = props.weapon;
+		this.attack = props.attack;
+		this.changeHP = props.changeHP;
+		this.renderHP = props.renderHP;
+		this.elHP = props.elHP;
+	}
+}
+
+const player1 = new Player({
 	player: 1,
 	name: 'Scorpion',
 	hp: 100,
@@ -10,8 +24,9 @@ const player1 = {
 	changeHP,
 	renderHP,
 	elHP,
-};
-const player2 = {
+});
+
+const player2 = new Player({
 	player: 2,
 	name: 'Sub Zero',
 	hp: 100,
@@ -21,40 +36,12 @@ const player2 = {
 	changeHP,
 	renderHP,
 	elHP,
-};
-const player3 = {
-	player: 3,
-	name: 'Liu Kang',
-	hp: 80,
-	img: 'http://reactmarathon-api.herokuapp.com/assets/liukang.gif',
-	weapon: 'fist',
-	attack,
-	changeHP,
-	renderHP,
-	elHP,
-};
-const player4 = {
-	player: 4,
-	name: 'Sonya',
-	hp: 40,
-	img: 'http://reactmarathon-api.herokuapp.com/assets/sonya.gif',
-	weapon: 'glock',
-	attack,
-	changeHP,
-	renderHP,
-	elHP,
-};
-const player5 = {
-	player: 5,
-	name: 'Kitana',
-	hp: 100,
-	img: 'http://reactmarathon-api.herokuapp.com/assets/kitana.gif',
-	weapon: 'knife',
-	attack,
-	changeHP,
-	renderHP,
-	elHP,
-};
+});
+
+console.log('#### player1: ', player1);
+
+console.log('#### player2: ', player2);
+
 function changeHP(damage) {
 	this.hp > damage ? (this.hp -= damage) : (this.hp = 0);
 }
