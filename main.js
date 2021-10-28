@@ -1,7 +1,7 @@
 import { generateLog } from './logs.js';
 import { createPlayer, player1, player2 } from './player.js';
-import { checkAttack, attack, enemyAttack, checkWin } from './play.js';
-import { $arenas, $formFight } from './play.js';
+import { checkAttack, attack, enemyAttack, checkWin } from './game.js';
+import { $arenas, $formFight } from './game.js';
 
 $formFight.addEventListener('submit', function (e) {
 	e.preventDefault();
