@@ -1,7 +1,7 @@
 import { getRandom } from './utils.js';
 import { generateLog } from './logs.js';
 import { getDamage, createElement, createPlayer } from './player.js';
-import { player1, player2 } from './player.js';
+import { Player } from './player.js';
 const $formFight = document.querySelector('.control'),
 	$arenas = document.querySelector('.arenas'),
 	ATTACK = ['head', 'body', 'foot'],
@@ -10,6 +10,22 @@ const $formFight = document.querySelector('.control'),
 		body: 25,
 		foot: 20,
 	};
+
+const player1 = new Player({
+	player: 1,
+	name: 'Scorpion',
+	hp: 100,
+	img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
+	weapon: 'knife',
+});
+const player2 = new Player({
+	player: 2,
+	name: 'Sub Zero',
+	hp: 100,
+	img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
+	weapon: 'ice',
+});
+
 class Game {
 	constructor() {
 		this.start = () => {
