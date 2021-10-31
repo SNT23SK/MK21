@@ -2,27 +2,32 @@ import { getRandom, createElement } from './utils.js';
 import { generateLog } from './logs.js';
 import { getDamage, createPlayer, Player } from './player.js';
 import { ATTACK, HIT } from './constants.js';
-const $formFight = document.querySelector('.control'),
-	$arenas = document.querySelector('.arenas');
+const $formFight = document.querySelector('.control');
+const $arenas = document.querySelector('.arenas');
 
-let player1 = new Player({
-	player: 1,
-	name: 'Scorpion',
-	hp: 100,
-	img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
-	weapon: 'knife',
-});
-let player2 = new Player({
-	player: 2,
-	name: 'Sub Zero',
-	hp: 100,
-	img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
-	weapon: 'ice',
-});
+let player1;
+let player2;
 
 class Game {
 	constructor() {
-		this.start = () => {
+		this.getPlayers = async () => {
+			const q = fetch('https://reactmarathon-api.herokuapp.com/api/mk/players');
+			const body = q.then((res) => res.json());
+			return body;
+		};
+		this.start = async () => {
+			const players = await this.getPlayers();
+			const p1 = players[getRandom(players.length - 1)];
+			const p2 = players[getRandom(players.length - 1)];
+			player1 = new Player({
+				...p1,
+				player: 1,
+			});
+			player2 = new Player({
+				...p2,
+				player: 2,
+			});
+			console.log('#### players: ', player1, player2);
 			$arenas.appendChild(createPlayer(player1));
 			$arenas.appendChild(createPlayer(player2));
 			generateLog('start', player1, player2);
