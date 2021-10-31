@@ -13,7 +13,18 @@ const $randomBtn = document.querySelector('.button'),
 	};
 class Game {
 	constructor() {
-		this.start = start;
+		this.start = () => {
+			$formFight.addEventListener('submit', function (e) {
+				e.preventDefault();
+				const enemy = enemyAttack();
+				const hero = attack();
+				checkAttack(enemy, hero);
+				checkWin();
+			});
+			$arenas.appendChild(createPlayer(player1));
+			$arenas.appendChild(createPlayer(player2));
+			generateLog('start', player1, player2);
+		};
 	}
 }
 
@@ -88,18 +99,6 @@ function createReloadButton() {
 	$reload.addEventListener('click', () => {
 		window.location.reload();
 	});
-}
-function start() {
-	$formFight.addEventListener('submit', function (e) {
-		e.preventDefault();
-		const enemy = enemyAttack();
-		const hero = attack();
-		checkAttack(enemy, hero);
-		checkWin();
-	});
-	$arenas.appendChild(createPlayer(player1));
-	$arenas.appendChild(createPlayer(player2));
-	generateLog('start', player1, player2);
 }
 
 export { Game };
