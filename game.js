@@ -10,15 +10,16 @@ let player2;
 
 class Game {
 	constructor() {
-		this.getPlayers = async () => {
-			const q = fetch('https://reactmarathon-api.herokuapp.com/api/mk/players');
+		this.getEnemy = async () => {
+			const q = fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/choose');
 			const body = q.then((res) => res.json());
 			return body;
 		};
+
 		this.start = async () => {
-			const players = await this.getPlayers();
 			const p1 = JSON.parse(localStorage.getItem('player1'));
-			const p2 = players[getRandom(players.length - 1)];
+			const p2 = await this.getEnemy();
+
 			player1 = new Player({
 				...p1,
 				player: 1,
@@ -27,9 +28,12 @@ class Game {
 				...p2,
 				player: 2,
 			});
+
 			$arenas.appendChild(createPlayer(player1));
 			$arenas.appendChild(createPlayer(player2));
 			generateLog('start', player1, player2);
+			createReloadButton();
+
 			$formFight.addEventListener('submit', function (e) {
 				e.preventDefault();
 				const enemy = enemyAttack();
@@ -46,7 +50,8 @@ function checkWin() {
 	const { hp: hp2, name: name2 } = player2;
 	if (hp1 <= 0 || hp2 <= 0) {
 		$formFight.remove();
-		createReloadButton();
+		// $formFight.disabled = true;
+		// createReloadButton();
 
 		if (hp1 > hp2) {
 			$arenas.appendChild(getWinner(name1));
