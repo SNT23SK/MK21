@@ -1,3 +1,4 @@
+import { createElement } from './utils.js';
 class Player {
 	constructor(props) {
 		this.player = props.player;
@@ -18,13 +19,6 @@ class Player {
 	}
 }
 
-function createElement(tag, className) {
-	const $tag = document.createElement(tag);
-	if (className) {
-		$tag.classList.add(className);
-	}
-	return $tag;
-}
 function getDamage(player, damage) {
 	player.changeHP(damage);
 	player.renderHP();
@@ -51,4 +45,4 @@ function createPlayer(person) {
 
 	return $player;
 }
-export { createElement, getDamage, createPlayer, Player };
+export { getDamage, createPlayer, Player };

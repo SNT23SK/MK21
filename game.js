@@ -1,6 +1,6 @@
-import { getRandom } from './utils.js';
+import { getRandom, createElement } from './utils.js';
 import { generateLog } from './logs.js';
-import { getDamage, createElement, createPlayer } from './player.js';
+import { getDamage, createPlayer } from './player.js';
 import { Player } from './player.js';
 const $formFight = document.querySelector('.control'),
 	$arenas = document.querySelector('.arenas'),
@@ -11,14 +11,14 @@ const $formFight = document.querySelector('.control'),
 		foot: 20,
 	};
 
-const player1 = new Player({
+let player1 = new Player({
 	player: 1,
 	name: 'Scorpion',
 	hp: 100,
 	img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
 	weapon: 'knife',
 });
-const player2 = new Player({
+let player2 = new Player({
 	player: 2,
 	name: 'Sub Zero',
 	hp: 100,
@@ -29,6 +29,9 @@ const player2 = new Player({
 class Game {
 	constructor() {
 		this.start = () => {
+			$arenas.appendChild(createPlayer(player1));
+			$arenas.appendChild(createPlayer(player2));
+			generateLog('start', player1, player2);
 			$formFight.addEventListener('submit', function (e) {
 				e.preventDefault();
 				const enemy = enemyAttack();
@@ -36,9 +39,6 @@ class Game {
 				checkAttack(enemy, hero);
 				checkWin();
 			});
-			$arenas.appendChild(createPlayer(player1));
-			$arenas.appendChild(createPlayer(player2));
-			generateLog('start', player1, player2);
 		};
 	}
 }
