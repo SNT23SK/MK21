@@ -17,7 +17,7 @@ class Game {
 		};
 		this.start = async () => {
 			const players = await this.getPlayers();
-			const p1 = players[getRandom(players.length - 1)];
+			const p1 = JSON.parse(localStorage.getItem('player1'));
 			const p2 = players[getRandom(players.length - 1)];
 			player1 = new Player({
 				...p1,
@@ -45,8 +45,9 @@ function checkWin() {
 	const { hp: hp1, name: name1 } = player1;
 	const { hp: hp2, name: name2 } = player2;
 	if (hp1 <= 0 || hp2 <= 0) {
-		$formFight.disabled = true;
+		$formFight.remove();
 		createReloadButton();
+
 		if (hp1 > hp2) {
 			$arenas.appendChild(getWinner(name1));
 			generateLog('end', player1, player2);
@@ -110,7 +111,7 @@ function createReloadButton() {
 	$reload.appendChild($btn);
 	$arenas.appendChild($reload);
 	$reload.addEventListener('click', () => {
-		window.location.reload();
+		window.location.pathname = 'index.html';
 	});
 }
 
