@@ -49,10 +49,9 @@ function checkWin() {
 	const { hp: hp1, name: name1 } = player1;
 	const { hp: hp2, name: name2 } = player2;
 	if (hp1 <= 0 || hp2 <= 0) {
-		$formFight.remove();
-		// $formFight.disabled = true;
-		// createReloadButton();
-
+		$formFight.disabled = true;
+		const $btnForm = $formFight.querySelector('button[type="submit"]');
+		$btnForm.remove();
 		if (hp1 > hp2) {
 			$arenas.appendChild(getWinner(name1));
 			generateLog('end', player1, player2);
