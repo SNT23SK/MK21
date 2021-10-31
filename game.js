@@ -38,6 +38,11 @@ class Game {
 				e.preventDefault();
 				const enemy = enemyAttack();
 				const hero = attack();
+				const round = fight(hero.hit, hero.defence);
+				// const p2 = await this.getEnemy();
+
+				console.log('#### enemyAttackR(): ', round);
+
 				checkAttack(enemy, hero);
 				checkWin();
 			});
@@ -64,7 +69,8 @@ function checkWin() {
 		}
 	}
 }
-function enemyAttack() {
+
+const enemyAttack = () => {
 	const hit = ATTACK[getRandom(3) - 1];
 	const defence = ATTACK[getRandom(3) - 1];
 	return {
@@ -72,7 +78,34 @@ function enemyAttack() {
 		hit,
 		defence,
 	};
-}
+};
+const attack = () => {
+	const attack = {};
+	for (const item of $formFight) {
+		if (item.checked && item.name === 'hit') {
+			attack.value = getRandom(HIT[item.value]);
+			attack.hit = item.value;
+		}
+		if (item.checked && item.name === 'defence') {
+			attack.defence = item.value;
+		}
+		item.checked = false;
+	}
+	return attack;
+};
+
+const fight = async (hit, defence) => {
+	const q = fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
+		method: 'POST',
+		body: JSON.stringify({
+			hit,
+			defence,
+		}),
+	});
+	const body = q.then((res) => res.json());
+	return body;
+};
+
 function checkAttack(enemy, hero) {
 	if (hero.hit !== enemy.defence) {
 		getDamage(player2, hero.value);
@@ -89,20 +122,6 @@ function checkAttack(enemy, hero) {
 		generateLog('defence', player2, player1, enemy.value);
 	}
 }
-const attack = () => {
-	const attack = {};
-	for (const item of $formFight) {
-		if (item.checked && item.name === 'hit') {
-			attack.value = getRandom(HIT[item.value]);
-			attack.hit = item.value;
-		}
-		if (item.checked && item.name === 'defence') {
-			attack.defence = item.value;
-		}
-		item.checked = false;
-	}
-	return attack;
-};
 function getWinner(name) {
 	const $winTitle = createElement('div', 'winTitle');
 	name ? ($winTitle.innerText = name + ' wins') : ($winTitle.innerText = 'Draw');
