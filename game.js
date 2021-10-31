@@ -1,15 +1,9 @@
 import { getRandom, createElement } from './utils.js';
 import { generateLog } from './logs.js';
-import { getDamage, createPlayer } from './player.js';
-import { Player } from './player.js';
+import { getDamage, createPlayer, Player } from './player.js';
+import { ATTACK, HIT } from './constants.js';
 const $formFight = document.querySelector('.control'),
-	$arenas = document.querySelector('.arenas'),
-	ATTACK = ['head', 'body', 'foot'],
-	HIT = {
-		head: 30,
-		body: 25,
-		foot: 20,
-	};
+	$arenas = document.querySelector('.arenas');
 
 let player1 = new Player({
 	player: 1,

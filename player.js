@@ -18,7 +18,6 @@ class Player {
 		};
 	}
 }
-
 function getDamage(player, damage) {
 	player.changeHP(damage);
 	player.renderHP();
