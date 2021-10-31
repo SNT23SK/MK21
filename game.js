@@ -2,8 +2,7 @@ import { getRandom } from './utils.js';
 import { generateLog } from './logs.js';
 import { getDamage, createElement, createPlayer } from './player.js';
 import { player1, player2 } from './player.js';
-const $randomBtn = document.querySelector('.button'),
-	$formFight = document.querySelector('.control'),
+const $formFight = document.querySelector('.control'),
 	$arenas = document.querySelector('.arenas'),
 	ATTACK = ['head', 'body', 'foot'],
 	HIT = {
@@ -32,7 +31,7 @@ function checkWin() {
 	const { hp: hp1, name: name1 } = player1;
 	const { hp: hp2, name: name2 } = player2;
 	if (hp1 <= 0 || hp2 <= 0) {
-		$randomBtn.disabled = true;
+		$formFight.disabled = true;
 		createReloadButton();
 		if (hp1 > hp2) {
 			$arenas.appendChild(getWinner(name1));
