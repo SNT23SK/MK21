@@ -27,7 +27,6 @@ class Game {
 				...p2,
 				player: 2,
 			});
-			console.log('#### players: ', player1, player2);
 			$arenas.appendChild(createPlayer(player1));
 			$arenas.appendChild(createPlayer(player2));
 			generateLog('start', player1, player2);
