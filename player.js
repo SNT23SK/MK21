@@ -5,9 +5,16 @@ class Player {
 		this.name = props.name;
 		this.img = props.img;
 		this.weapon = props.weapon;
-		this.changeHP = changeHP;
-		this.renderHP = renderHP;
-		this.elHP = elHP;
+		this.changeHP = (damage) => {
+			this.hp > damage ? (this.hp -= damage) : (this.hp = 0);
+		};
+		this.renderHP = () => {
+			this.elHP().style.width = this.hp + '%';
+		};
+		this.elHP = () => {
+			const $elLife = document.querySelector('.player' + this.player + ' .life');
+			return $elLife;
+		};
 	}
 }
 const player1 = new Player({
@@ -24,16 +31,7 @@ const player2 = new Player({
 	img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
 	weapon: 'ice',
 });
-function changeHP(damage) {
-	this.hp > damage ? (this.hp -= damage) : (this.hp = 0);
-}
-function elHP() {
-	const $elLife = document.querySelector('.player' + this.player + ' .life');
-	return $elLife;
-}
-function renderHP() {
-	this.elHP().style.width = this.hp + '%';
-}
+
 function createElement(tag, className) {
 	const $tag = document.createElement(tag);
 	if (className) {
