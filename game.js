@@ -36,20 +36,39 @@ class Game {
 
 			$formFight.addEventListener('submit', function (e) {
 				e.preventDefault();
-				const enemy = enemyAttack();
-				const hero = attack();
-				const round = fight(hero.hit, hero.defence);
-				// const p2 = await this.getEnemy();
-
-				console.log('#### enemyAttackR(): ', round);
-
-				checkAttack(enemy, hero);
-				checkWin();
+				const playerAttack = attack();
+				const round = new Promise(function (res) {
+					res(fight(playerAttack));
+				});
+				round
+					.then((res) => {
+						const heroData = {
+							...res.player1,
+						};
+						const enemyData = {
+							...res.player2,
+						};
+						checkAttack(enemyData, heroData);
+					})
+					.then(() => {
+						checkWin();
+					});
 			});
 		};
 	}
 }
+async function fight({ hit, defence }) {
+	const src = 'http://reactmarathon-api.herokuapp.com/api/mk/player/fight';
+	const body = await fetch(src, {
+		method: 'POST',
+		body: JSON.stringify({
+			hit,
+			defence,
+		}),
+	}).then((res) => res.json());
 
+	return body;
+}
 function checkWin() {
 	const { hp: hp1, name: name1 } = player1;
 	const { hp: hp2, name: name2 } = player2;
@@ -83,7 +102,6 @@ const attack = () => {
 	const attack = {};
 	for (const item of $formFight) {
 		if (item.checked && item.name === 'hit') {
-			attack.value = getRandom(HIT[item.value]);
 			attack.hit = item.value;
 		}
 		if (item.checked && item.name === 'defence') {
@@ -92,18 +110,6 @@ const attack = () => {
 		item.checked = false;
 	}
 	return attack;
-};
-
-const fight = async (hit, defence) => {
-	const q = fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
-		method: 'POST',
-		body: JSON.stringify({
-			hit,
-			defence,
-		}),
-	});
-	const body = q.then((res) => res.json());
-	return body;
 };
 
 function checkAttack(enemy, hero) {
