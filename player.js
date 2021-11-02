@@ -1,3 +1,4 @@
+import { createElement } from './utils.js';
 class Player {
 	constructor(props) {
 		this.player = props.player;
@@ -16,28 +17,6 @@ class Player {
 			return $elLife;
 		};
 	}
-}
-const player1 = new Player({
-	player: 1,
-	name: 'Scorpion',
-	hp: 100,
-	img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
-	weapon: 'knife',
-});
-const player2 = new Player({
-	player: 2,
-	name: 'Sub Zero',
-	hp: 100,
-	img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
-	weapon: 'ice',
-});
-
-function createElement(tag, className) {
-	const $tag = document.createElement(tag);
-	if (className) {
-		$tag.classList.add(className);
-	}
-	return $tag;
 }
 function getDamage(player, damage) {
 	player.changeHP(damage);
@@ -65,4 +44,4 @@ function createPlayer(person) {
 
 	return $player;
 }
-export { createElement, getDamage, createPlayer, player1, player2 };
+export { getDamage, createPlayer, Player };

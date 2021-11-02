@@ -1,39 +1,81 @@
-import { getRandom } from './utils.js';
+import { getRandom, createElement } from './utils.js';
 import { generateLog } from './logs.js';
-import { getDamage, createElement, createPlayer } from './player.js';
-import { player1, player2 } from './player.js';
-const $randomBtn = document.querySelector('.button'),
-	$formFight = document.querySelector('.control'),
-	$arenas = document.querySelector('.arenas'),
-	ATTACK = ['head', 'body', 'foot'],
-	HIT = {
-		head: 30,
-		body: 25,
-		foot: 20,
-	};
+import { getDamage, createPlayer, Player } from './player.js';
+import { ATTACK, HIT } from './constants.js';
+const $formFight = document.querySelector('.control');
+const $arenas = document.querySelector('.arenas');
+
+let player1;
+let player2;
+
 class Game {
 	constructor() {
-		this.start = () => {
-			$formFight.addEventListener('submit', function (e) {
-				e.preventDefault();
-				const enemy = enemyAttack();
-				const hero = attack();
-				checkAttack(enemy, hero);
-				checkWin();
+		this.getEnemy = async () => {
+			const q = fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/choose');
+			const body = q.then((res) => res.json());
+			return body;
+		};
+
+		this.start = async () => {
+			const p1 = JSON.parse(localStorage.getItem('player1'));
+			const p2 = await this.getEnemy();
+
+			player1 = new Player({
+				...p1,
+				player: 1,
 			});
+			player2 = new Player({
+				...p2,
+				player: 2,
+			});
+
 			$arenas.appendChild(createPlayer(player1));
 			$arenas.appendChild(createPlayer(player2));
 			generateLog('start', player1, player2);
+			createReloadButton();
+
+			$formFight.addEventListener('submit', function (e) {
+				e.preventDefault();
+				const playerAttack = attack();
+				const round = new Promise(function (res) {
+					res(fight(playerAttack));
+				});
+				round
+					.then((res) => {
+						const heroData = {
+							...res.player1,
+						};
+						const enemyData = {
+							...res.player2,
+						};
+						checkAttack(enemyData, heroData);
+					})
+					.then(() => {
+						checkWin();
+					});
+			});
 		};
 	}
 }
+async function fight({ hit, defence }) {
+	const src = 'https://reactmarathon-api.herokuapp.com/api/mk/player/fight';
+	const body = await fetch(src, {
+		method: 'POST',
+		body: JSON.stringify({
+			hit,
+			defence,
+		}),
+	}).then((res) => res.json());
 
+	return body;
+}
 function checkWin() {
 	const { hp: hp1, name: name1 } = player1;
 	const { hp: hp2, name: name2 } = player2;
 	if (hp1 <= 0 || hp2 <= 0) {
-		$randomBtn.disabled = true;
-		createReloadButton();
+		$formFight.disabled = true;
+		const $btnForm = $formFight.querySelector('button[type="submit"]');
+		$btnForm.remove();
 		if (hp1 > hp2) {
 			$arenas.appendChild(getWinner(name1));
 			generateLog('end', player1, player2);
@@ -46,7 +88,8 @@ function checkWin() {
 		}
 	}
 }
-function enemyAttack() {
+
+const enemyAttack = () => {
 	const hit = ATTACK[getRandom(3) - 1];
 	const defence = ATTACK[getRandom(3) - 1];
 	return {
@@ -54,7 +97,21 @@ function enemyAttack() {
 		hit,
 		defence,
 	};
-}
+};
+const attack = () => {
+	const attack = {};
+	for (const item of $formFight) {
+		if (item.checked && item.name === 'hit') {
+			attack.hit = item.value;
+		}
+		if (item.checked && item.name === 'defence') {
+			attack.defence = item.value;
+		}
+		item.checked = false;
+	}
+	return attack;
+};
+
 function checkAttack(enemy, hero) {
 	if (hero.hit !== enemy.defence) {
 		getDamage(player2, hero.value);
@@ -71,20 +128,6 @@ function checkAttack(enemy, hero) {
 		generateLog('defence', player2, player1, enemy.value);
 	}
 }
-const attack = () => {
-	const attack = {};
-	for (const item of $formFight) {
-		if (item.checked && item.name === 'hit') {
-			attack.value = getRandom(HIT[item.value]);
-			attack.hit = item.value;
-		}
-		if (item.checked && item.name === 'defence') {
-			attack.defence = item.value;
-		}
-		item.checked = false;
-	}
-	return attack;
-};
 function getWinner(name) {
 	const $winTitle = createElement('div', 'winTitle');
 	name ? ($winTitle.innerText = name + ' wins') : ($winTitle.innerText = 'Draw');
@@ -97,7 +140,7 @@ function createReloadButton() {
 	$reload.appendChild($btn);
 	$arenas.appendChild($reload);
 	$reload.addEventListener('click', () => {
-		window.location.reload();
+		window.location.pathname = 'index.html';
 	});
 }
 
