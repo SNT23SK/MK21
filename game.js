@@ -58,7 +58,7 @@ class Game {
 	}
 }
 async function fight({ hit, defence }) {
-	const src = 'http://reactmarathon-api.herokuapp.com/api/mk/player/fight';
+	const src = 'https://reactmarathon-api.herokuapp.com/api/mk/player/fight';
 	const body = await fetch(src, {
 		method: 'POST',
 		body: JSON.stringify({
