@@ -12,14 +12,16 @@ let player2;
 class Game {
 	constructor() {
 		this.getEnemy = async () => {
-			const q = fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/choose');
+			const src = 'https://reactmarathon-api.herokuapp.com/api/mk/player/choose';
+			const q = fetch(src);
 			const body = q.then((res) => res.json());
 			return body;
 		};
 
 		this.start = async () => {
 			const p1 = JSON.parse(localStorage.getItem('player1'));
-			const p2 = await this.getEnemy();
+			// const p2 = await this.getEnemy();
+			const p2 = JSON.parse(localStorage.getItem('player2'));
 
 			player1 = new Player({
 				...p1,
