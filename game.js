@@ -4,6 +4,7 @@ import { getDamage, createPlayer, Player } from './player.js';
 import { ATTACK, HIT } from './constants.js';
 const $formFight = document.querySelector('.control');
 const $arenas = document.querySelector('.arenas');
+$arenas.classList.add('arena' + getRandom(5));
 
 let player1;
 let player2;
