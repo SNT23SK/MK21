@@ -33,10 +33,8 @@ let chooseCharacter = false;
 async function init() {
 	localStorage.removeItem('player1');
 	localStorage.removeItem('player2');
-
-	const players = await fetch('https://reactmarathon-api.herokuapp.com/api/mk/players').then(
-		(res) => res.json()
-	);
+	const src = 'https://reactmarathon-api.herokuapp.com/api/mk/players';
+	const players = await fetch(src).then((res) => res.json());
 
 	const enemy = await getEnemy();
 
@@ -44,7 +42,7 @@ async function init() {
 	createEmptyPlayerBlock();
 
 	players.forEach((item) => {
-		const el = createElement('div', ['character', `div${item.id}`, `tabindex=${item.id}`]);
+		const el = createElement('div', ['character', `div${item.id}`]);
 		const img = createElement('img');
 
 		el.addEventListener('mousemove', () => {
@@ -52,14 +50,16 @@ async function init() {
 				imgSrc = item.img;
 				const $img = createElement('img');
 				$img.src = imgSrc;
-				chooseCharacter ? $enemy.appendChild($img) : $player.appendChild($img);
+				$player.appendChild($img);
 			}
 		});
 
 		el.addEventListener('mouseout', () => {
 			if (imgSrc) {
 				imgSrc = null;
-				chooseCharacter ? ($enemy.innerHTML = '') : ($player.innerHTML = '');
+				if (!chooseCharacter) {
+					$player.innerHTML = '';
+				}
 			}
 		});
 
@@ -67,17 +67,24 @@ async function init() {
 			chooseCharacter = true;
 			localStorage.setItem('player1', JSON.stringify(item));
 			localStorage.setItem('player2', JSON.stringify(enemy));
-
+			// let imgSrcEnemy = enemy.src;
 			el.classList.add('active');
 			setTimeout(() => {
-				const $random = document.querySelector('.div' + enemy.id);
-
-				$random.classList.add('active');
-				imgSrc = item.img;
+				// create img for player
 				const $img = createElement('img');
+				imgSrc = item.img;
 				$img.src = imgSrc;
-				$enemy.appendChild($img);
-				$random.focus();
+				//  create img  for random enemy
+				const $enemyCharacter = document.querySelector('.div' + enemy.id);
+				$enemyCharacter.classList.add('active');
+
+				const $img2 = createElement('img');
+
+				$img2.src = enemy.img;
+
+				$enemy.appendChild($img2);
+			}, 2000);
+			setTimeout(() => {
 				window.location.pathname = 'arenas.html';
 			}, 2000);
 		});
