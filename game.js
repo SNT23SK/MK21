@@ -13,7 +13,7 @@ class Game {
 	constructor() {
 		this.getEnemy = async () => {
 			const src = 'https://reactmarathon-api.herokuapp.com/api/mk/player/choose';
-			const q = fetch(src);
+			const q = await fetch(src);
 			const body = q.then((res) => res.json());
 			return body;
 		};
@@ -36,6 +36,12 @@ class Game {
 			$arenas.appendChild(createPlayer(player2));
 			generateLog('start', player1, player2);
 			createReloadButton();
+			let start = new Promise((res) => {
+				res(createFightImage());
+			});
+			start.then(() => createButtonFight());
+
+			// createButtonFight();
 
 			$formFight.addEventListener('submit', function (e) {
 				e.preventDefault();
@@ -60,6 +66,25 @@ class Game {
 		};
 	}
 }
+
+function createFightImage() {
+	const $fight = document.createElement('img');
+	$fight.src = './assets/fight.gif';
+	$formFight.appendChild($fight);
+	setTimeout(() => {
+		$fight.remove();
+	}, 2000);
+}
+
+function createButtonFight() {
+	const $wrap = createElement('div', 'buttonWrap');
+	const $btn = createElement('button', 'button');
+	$btn.innerText = 'Figth!';
+
+	$wrap.appendChild($btn);
+	$formFight.appendChild($wrap);
+}
+
 async function fight({ hit, defence }) {
 	const src = 'https://reactmarathon-api.herokuapp.com/api/mk/player/fight';
 	const body = await fetch(src, {
