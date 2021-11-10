@@ -67,7 +67,6 @@ async function init() {
 			chooseCharacter = true;
 			localStorage.setItem('player1', JSON.stringify(item));
 			localStorage.setItem('player2', JSON.stringify(enemy));
-			// let imgSrcEnemy = enemy.src;
 			el.classList.add('active');
 			setTimeout(() => {
 				// create img for player
