@@ -82,10 +82,10 @@ async function init() {
 				$img2.src = enemy.img;
 
 				$enemy.appendChild($img2);
-			}, 2000);
+			}, 1000);
 			setTimeout(() => {
 				window.location.pathname = 'arenas.html';
-			}, 2000);
+			}, 4000);
 		});
 
 		img.src = item.avatar;
