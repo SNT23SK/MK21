@@ -37,18 +37,11 @@ class Game {
 			generateLog('start', player1, player2);
 			createReloadButton();
 			let promise = new Promise((res) => {
-				// res(createFightImage());
-				res(console.log('#### 0: ', 0));
+				res(createFightImage());
 			});
-			promise
-				.then(function () {
-					console.log('#### res: ', promise);
-					// createButtonFight();
-					console.log('#### 1: ', 1);
-				})
-				.catch(() => {
-					console.log('#### e.message: ', e.message);
-				});
+			promise.then(function (res) {
+				createButtonFight();
+			});
 
 			$formFight.addEventListener('submit', function (e) {
 				e.preventDefault();
@@ -75,13 +68,10 @@ class Game {
 }
 
 function createFightImage() {
-	const $fight = createElement('img');
+	const $fight = createElement('img', 'fight');
 	$fight.src = './assets/fight.gif';
+	$fight.style.zIndex = '-1';
 	$formFight.appendChild($fight);
-	setTimeout(() => {
-		$fight.remove();
-	}, 2000);
-	return true;
 }
 
 function createButtonFight() {
