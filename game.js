@@ -13,14 +13,13 @@ class Game {
 	constructor() {
 		this.getEnemy = async () => {
 			const src = 'https://reactmarathon-api.herokuapp.com/api/mk/player/choose';
-			const q = fetch(src);
+			const q = await fetch(src);
 			const body = q.then((res) => res.json());
 			return body;
 		};
 
 		this.start = async () => {
 			const p1 = JSON.parse(localStorage.getItem('player1'));
-			// const p2 = await this.getEnemy();
 			const p2 = JSON.parse(localStorage.getItem('player2'));
 
 			player1 = new Player({
@@ -36,6 +35,18 @@ class Game {
 			$arenas.appendChild(createPlayer(player2));
 			generateLog('start', player1, player2);
 			createReloadButton();
+
+			let promise = new Promise((resolve) => {
+				resolve(createFightImage());
+			});
+			promise
+				.then(() => {
+					setTimeout(() => {
+						showButtonFight('visible');
+						showInputs('visible');
+					}, 3000);
+				})
+				.then(() => {});
 
 			$formFight.addEventListener('submit', function (e) {
 				e.preventDefault();
@@ -60,6 +71,25 @@ class Game {
 		};
 	}
 }
+
+function createFightImage() {
+	const $fight = createElement('img', 'fight');
+	$fight.src = './assets/fight.gif';
+	$fight.style.zIndex = '-1';
+	$formFight.appendChild($fight);
+}
+function showInputs(visible) {
+	const $inputs = document.querySelectorAll('.inputWrap');
+	$inputs.forEach((item) => {
+		item.style.visibility = visible;
+	});
+}
+
+function showButtonFight(visible) {
+	const $btn = document.querySelector('.buttonWrap');
+	$btn.style.visibility = visible;
+}
+
 async function fight({ hit, defence }) {
 	const src = 'https://reactmarathon-api.herokuapp.com/api/mk/player/fight';
 	const body = await fetch(src, {
@@ -77,8 +107,9 @@ function checkWin() {
 	const { hp: hp2, name: name2 } = player2;
 	if (hp1 <= 0 || hp2 <= 0) {
 		$formFight.disabled = true;
-		const $btnForm = $formFight.querySelector('button[type="submit"]');
-		$btnForm.remove();
+		showButtonFight('hidden');
+		showInputs('hidden');
+
 		if (hp1 > hp2) {
 			$arenas.appendChild(getWinner(name1));
 			generateLog('end', player1, player2);
@@ -92,15 +123,6 @@ function checkWin() {
 	}
 }
 
-const enemyAttack = () => {
-	const hit = ATTACK[getRandom(3) - 1];
-	const defence = ATTACK[getRandom(3) - 1];
-	return {
-		value: getRandom(HIT[hit]),
-		hit,
-		defence,
-	};
-};
 const attack = () => {
 	const attack = {};
 	for (const item of $formFight) {

@@ -67,7 +67,6 @@ async function init() {
 			chooseCharacter = true;
 			localStorage.setItem('player1', JSON.stringify(item));
 			localStorage.setItem('player2', JSON.stringify(enemy));
-			// let imgSrcEnemy = enemy.src;
 			el.classList.add('active');
 			setTimeout(() => {
 				// create img for player
@@ -77,16 +76,13 @@ async function init() {
 				//  create img  for random enemy
 				const $enemyCharacter = document.querySelector('.div' + enemy.id);
 				$enemyCharacter.classList.add('active');
-
 				const $img2 = createElement('img');
-
 				$img2.src = enemy.img;
-
 				$enemy.appendChild($img2);
-			}, 2000);
+			}, 1000);
 			setTimeout(() => {
 				window.location.pathname = 'arenas.html';
-			}, 2000);
+			}, 4000);
 		});
 
 		img.src = item.avatar;
