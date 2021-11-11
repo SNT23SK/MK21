@@ -338,10 +338,12 @@ form:invalid button[class='button']:active::after {
 	position: relative;
 	width: 280px;
 	margin-bottom: 24px;
+	visibility: hidden;
 }
 
 .buttonWrap {
 	margin-top: 12px;
+	visibility: hidden;
 }
 
 .inputWrap h2 {

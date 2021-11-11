@@ -35,12 +35,18 @@ class Game {
 			$arenas.appendChild(createPlayer(player2));
 			generateLog('start', player1, player2);
 			createReloadButton();
-			let promise = new Promise((res) => {
-				res(createFightImage());
+
+			let promise = new Promise((resolve) => {
+				resolve(createFightImage());
 			});
-			promise.then(function (res) {
-				createButtonFight();
-			});
+			promise
+				.then(() => {
+					setTimeout(() => {
+						showButtonFight('visible');
+						showInputs('visible');
+					}, 3000);
+				})
+				.then(() => {});
 
 			$formFight.addEventListener('submit', function (e) {
 				e.preventDefault();
@@ -72,14 +78,16 @@ function createFightImage() {
 	$fight.style.zIndex = '-1';
 	$formFight.appendChild($fight);
 }
+function showInputs(visible) {
+	const $inputs = document.querySelectorAll('.inputWrap');
+	$inputs.forEach((item) => {
+		item.style.visibility = visible;
+	});
+}
 
-function createButtonFight() {
-	const $wrap = createElement('div', 'buttonWrap');
-	const $btn = createElement('button', 'button');
-	$btn.innerText = 'Figth!';
-
-	$wrap.appendChild($btn);
-	$formFight.appendChild($wrap);
+function showButtonFight(visible) {
+	const $btn = document.querySelector('.buttonWrap');
+	$btn.style.visibility = visible;
 }
 
 async function fight({ hit, defence }) {
@@ -99,8 +107,9 @@ function checkWin() {
 	const { hp: hp2, name: name2 } = player2;
 	if (hp1 <= 0 || hp2 <= 0) {
 		$formFight.disabled = true;
-		const $btnForm = $formFight.querySelector('button[type="submit"]');
-		$btnForm.remove();
+		showButtonFight('hidden');
+		showInputs('hidden');
+
 		if (hp1 > hp2) {
 			$arenas.appendChild(getWinner(name1));
 			generateLog('end', player1, player2);
