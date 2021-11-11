@@ -20,7 +20,6 @@ class Game {
 
 		this.start = async () => {
 			const p1 = JSON.parse(localStorage.getItem('player1'));
-			// const p2 = await this.getEnemy();
 			const p2 = JSON.parse(localStorage.getItem('player2'));
 
 			player1 = new Player({
@@ -115,15 +114,6 @@ function checkWin() {
 	}
 }
 
-const enemyAttack = () => {
-	const hit = ATTACK[getRandom(3) - 1];
-	const defence = ATTACK[getRandom(3) - 1];
-	return {
-		value: getRandom(HIT[hit]),
-		hit,
-		defence,
-	};
-};
 const attack = () => {
 	const attack = {};
 	for (const item of $formFight) {

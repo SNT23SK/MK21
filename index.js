@@ -76,11 +76,8 @@ async function init() {
 				//  create img  for random enemy
 				const $enemyCharacter = document.querySelector('.div' + enemy.id);
 				$enemyCharacter.classList.add('active');
-
 				const $img2 = createElement('img');
-
 				$img2.src = enemy.img;
-
 				$enemy.appendChild($img2);
 			}, 1000);
 			setTimeout(() => {
