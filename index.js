@@ -50,7 +50,7 @@ async function init() {
 				imgSrc = item.img;
 				const $img = createElement('img');
 				$img.src = imgSrc;
-				if (!isCharacter) {
+				if ($player.querySelector('img') === null) {
 					$player.appendChild($img);
 				}
 			}
@@ -70,7 +70,9 @@ async function init() {
 			localStorage.setItem('player2', JSON.stringify(enemy));
 			if (!isCharacter) {
 				el.classList.add('active');
+				isCharacter = true;
 			}
+
 			// create img for player
 			const $img = createElement('img');
 			imgSrc = item.img;
@@ -82,9 +84,8 @@ async function init() {
 				$enemyCharacter.classList.add('select');
 				const $img2 = createElement('img');
 				$img2.src = enemy.img;
-				if (!isCharacter) {
+				if ($enemy.querySelector('img') === null) {
 					$enemy.appendChild($img2);
-					isCharacter = true;
 				}
 			}, 1000);
 			setTimeout(() => {
