@@ -50,7 +50,9 @@ async function init() {
 				imgSrc = item.img;
 				const $img = createElement('img');
 				$img.src = imgSrc;
-				$player.appendChild($img);
+				if (!chooseCharacter) {
+					$player.appendChild($img);
+				}
 			}
 		});
 
@@ -64,21 +66,28 @@ async function init() {
 		});
 
 		el.addEventListener('click', (e) => {
-			chooseCharacter = true;
 			localStorage.setItem('player1', JSON.stringify(item));
 			localStorage.setItem('player2', JSON.stringify(enemy));
-			el.classList.add('active');
+			if (!chooseCharacter) {
+				el.classList.add('active');
+			}
+			// create img for player
+			const $img = createElement('img');
+			imgSrc = item.img;
+			$img.src = imgSrc;
+
 			setTimeout(() => {
-				// create img for player
-				const $img = createElement('img');
-				imgSrc = item.img;
-				$img.src = imgSrc;
 				//  create img  for random enemy
 				const $enemyCharacter = document.querySelector('.div' + enemy.id);
-				$enemyCharacter.classList.add('active');
+				$enemyCharacter.classList.add('select');
 				const $img2 = createElement('img');
 				$img2.src = enemy.img;
-				$enemy.appendChild($img2);
+				if (!chooseCharacter) {
+					console.log('#### !chooseCharacter: ', !chooseCharacter);
+
+					$enemy.appendChild($img2);
+					chooseCharacter = true;
+				}
 			}, 1000);
 			setTimeout(() => {
 				window.location.pathname = 'arenas.html';

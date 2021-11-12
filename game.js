@@ -44,7 +44,7 @@ class Game {
 					setTimeout(() => {
 						showButtonFight('visible');
 						showInputs('visible');
-					}, 3000);
+					}, 2000);
 				})
 				.then(() => {});
 
