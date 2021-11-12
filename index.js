@@ -28,7 +28,7 @@ getEnemy = async () => {
 	const body = fetch(src).then((res) => res.json());
 	return body;
 };
-let chooseCharacter = false;
+let isCharacter = false;
 
 async function init() {
 	localStorage.removeItem('player1');
@@ -50,7 +50,7 @@ async function init() {
 				imgSrc = item.img;
 				const $img = createElement('img');
 				$img.src = imgSrc;
-				if (!chooseCharacter) {
+				if (!isCharacter) {
 					$player.appendChild($img);
 				}
 			}
@@ -59,7 +59,7 @@ async function init() {
 		el.addEventListener('mouseout', () => {
 			if (imgSrc) {
 				imgSrc = null;
-				if (!chooseCharacter) {
+				if (!isCharacter) {
 					$player.innerHTML = '';
 				}
 			}
@@ -68,7 +68,7 @@ async function init() {
 		el.addEventListener('click', (e) => {
 			localStorage.setItem('player1', JSON.stringify(item));
 			localStorage.setItem('player2', JSON.stringify(enemy));
-			if (!chooseCharacter) {
+			if (!isCharacter) {
 				el.classList.add('active');
 			}
 			// create img for player
@@ -82,11 +82,9 @@ async function init() {
 				$enemyCharacter.classList.add('select');
 				const $img2 = createElement('img');
 				$img2.src = enemy.img;
-				if (!chooseCharacter) {
-					console.log('#### !chooseCharacter: ', !chooseCharacter);
-
+				if (!isCharacter) {
 					$enemy.appendChild($img2);
-					chooseCharacter = true;
+					isCharacter = true;
 				}
 			}, 1000);
 			setTimeout(() => {

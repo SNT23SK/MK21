@@ -40,10 +40,11 @@ class Game {
 				resolve(createFightImage());
 			});
 			promise
-				.then(() => {
+				.then((res) => {
 					setTimeout(() => {
 						showButtonFight('visible');
 						showInputs('visible');
+						res.remove();
 					}, 2000);
 				})
 				.then(() => {});
@@ -77,6 +78,7 @@ function createFightImage() {
 	$fight.src = './assets/fight.gif';
 	$fight.style.zIndex = '-1';
 	$formFight.appendChild($fight);
+	return $fight;
 }
 function showInputs(visible) {
 	const $inputs = document.querySelectorAll('.inputWrap');
