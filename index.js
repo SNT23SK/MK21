@@ -68,6 +68,7 @@ async function init() {
 		el.addEventListener('click', (e) => {
 			localStorage.setItem('player1', JSON.stringify(item));
 			localStorage.setItem('player2', JSON.stringify(enemy));
+
 			if (!isCharacter) {
 				el.classList.add('active');
 				isCharacter = true;
